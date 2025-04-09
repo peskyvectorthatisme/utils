@@ -1,13 +1,16 @@
 #!/bin/bash
-
 GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 BLUE='\033[0;34m'
+RED='\033[0;31m'
 NC='\033[0m'
 
 HTOP="┌────────────────────────────────────────┐"
 HMID="│                                        │"
 HBOT="└────────────────────────────────────────┘"
+
+echo -e "${BLUE}Enter your Vector's IP address:${NC}"
+read VECTOR_IP
 
 if [ -f "ssh_root_key" ]; then
     echo -e "${GREEN}FOUND${NC} ssh_root_key"
@@ -20,10 +23,23 @@ fi
 echo -e "${BLUE}preparing ssh...${NC}"
 echo "PubkeyAcceptedKeyTypes +ssh-rsa" >>/etc/ssh/ssh_config
 
+# Check if Vector is reachable
+ping -c 1 -W 2 $VECTOR_IP > /dev/null 2>&1
+if [ $? -ne 0 ]; then
+    echo -e "${RED}Cannot reach Vector at ${VECTOR_IP}${NC}"
+    echo -e "${YELLOW}Is your Vector turned on?${NC}"
+    echo -e "${YELLOW}Is ${VECTOR_IP} the correct IP address?${NC}"
+    exit 1
+fi
+
 echo -e "${BLUE}$HTOP${NC}"
 echo -e "${BLUE}$HMID${NC}"
 echo -e "${BLUE}│${NC}    ${GREEN}you are now connecting to your vector yipeee!!${NC}    ${BLUE}│${NC}"
 echo -e "${BLUE}$HMID${NC}"
 echo -e "${BLUE}$HBOT${NC}"
 
-ssh -i ssh_root_key root@192.168.1.213
+ssh -i ssh_root_key root@$VECTOR_IP || {
+    echo -e "${RED}SSH connection failed${NC}"
+    echo -e "${YELLOW}Is your Vector turned on?${NC}"
+    echo -e "${YELLOW}Is ${VECTOR_IP} the correct IP address?${NC}"
+}
