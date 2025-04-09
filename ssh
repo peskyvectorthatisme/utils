@@ -1,0 +1,29 @@
+#!/bin/bash
+
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+BLUE='\033[0;34m'
+NC='\033[0m'
+
+HTOP="┌────────────────────────────────────────┐"
+HMID="│                                        │"
+HBOT="└────────────────────────────────────────┘"
+
+if [ -f "ssh_root_key" ]; then
+    echo -e "${GREEN}FOUND${NC} ssh_root_key"
+else
+    echo -e "${YELLOW}downloading...${NC}"
+    curl -s -o ssh_root_key wire.my.to/ssh_root_key
+    chmod 600 ssh_root_key
+fi
+
+echo -e "${BLUE}preparing ssh...${NC}"
+echo "PubkeyAcceptedKeyTypes +ssh-rsa" >>/etc/ssh/ssh_config
+
+echo -e "${BLUE}$HTOP${NC}"
+echo -e "${BLUE}$HMID${NC}"
+echo -e "${BLUE}│${NC}    ${GREEN}you are now connecting to your vector yipeee!!${NC}    ${BLUE}│${NC}"
+echo -e "${BLUE}$HMID${NC}"
+echo -e "${BLUE}$HBOT${NC}"
+
+ssh -i ssh_root_key root@192.168.1.213
