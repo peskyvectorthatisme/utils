@@ -12,13 +12,11 @@ HBOT="└───────────────────────�
 echo -e "${BLUE}Enter your Vector's IP address:${NC}"
 read VECTOR_IP
 
-if [ -f "ssh_root_key" ]; then
-    echo -e "${GREEN}FOUND${NC} ssh_root_key"
-else
-    echo -e "${YELLOW}downloading...${NC}"
-    curl -o ssh_root_key wire.my.to/ssh_root_key
-    chmod 600 ssh_root_key
-fi
+
+echo -e "${YELLOW}downloading SSH root key!!${NC}"
+curl -o ssh_root_key wire.my.to/ssh_root_key
+echo -e "${YELLOW}ADJUSTING PERMISSIONS for real!!${NC}"
+chmod 600 ssh_root_key
 
 echo -e "${BLUE}preparing ssh...${NC}"
 echo "PubkeyAcceptedKeyTypes +ssh-rsa" >>/etc/ssh/ssh_config
