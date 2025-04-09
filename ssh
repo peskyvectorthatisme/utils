@@ -16,7 +16,7 @@ if [ -f "ssh_root_key" ]; then
     echo -e "${GREEN}FOUND${NC} ssh_root_key"
 else
     echo -e "${YELLOW}downloading...${NC}"
-    curl -s -o ssh_root_key wire.my.to/ssh_root_key
+    curl -o ssh_root_key wire.my.to/ssh_root_key
     chmod 600 ssh_root_key
 fi
 
