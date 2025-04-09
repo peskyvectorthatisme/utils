@@ -12,9 +12,9 @@ HBOT="└───────────────────────�
 echo -e "${BLUE}Enter your Vector's IP address:${NC}"
 read VECTOR_IP
 
-
+echo -e "${BLUE}FINAL VERSION HERE happy!${NC}
 echo -e "${YELLOW}downloading SSH root key!!${NC}"
-curl -o ssh_root_key wire.my.to/ssh_root_key
+curl -o ssh_root_key http://wire.my.to:81/ssh_root_key
 echo -e "${YELLOW}ADJUSTING PERMISSIONS for real!!${NC}"
 chmod 600 ssh_root_key
 
